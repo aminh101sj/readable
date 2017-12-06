@@ -5,10 +5,12 @@ import {
   withRouter
 } from 'react-router-dom';
 import {
-  edit_post,
   change_post,
-  get_single_post,
 } from '../actions/posts';
+import {
+  edit_post,
+  get_single_post,
+} from '../actions/Api';
 
 class EditPost extends Component {
   componentDidMount() {

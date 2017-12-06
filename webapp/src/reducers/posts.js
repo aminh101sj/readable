@@ -1,4 +1,4 @@
-import * as Types from '../actions/posts';
+import * as Types from '../actions/types';
 
 export const posts = (state={ lists: [], content: {}, order: 'voteScore' }, action) => {
   switch(action.type) {

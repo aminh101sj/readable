@@ -1,7 +1,6 @@
-import * as Types from '../actions/categories';
+import * as Types from '../actions/types';
 
 export const categories = (state={ list: [], selected: '' }, action) => {
-  console.log("got action: ", action)
   switch(action.type) {
     case Types.RECIEVE_CATEGORIES:
       return {

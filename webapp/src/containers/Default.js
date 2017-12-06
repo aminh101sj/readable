@@ -7,7 +7,7 @@ import {
   delete_post,
   upvote,
   downvote,
-} from '../actions/posts';
+} from '../actions/Api';
 import Vote from '../components/Vote';
 
 class Default extends Component {

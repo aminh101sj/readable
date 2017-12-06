@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import {
   add_comment,
-} from '../actions/comments';
+} from '../actions/Api';
 
 
 const mapStateToProps = (state, ownProps) => ({

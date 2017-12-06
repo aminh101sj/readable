@@ -5,10 +5,12 @@ import {
   withRouter
 } from 'react-router-dom';
 import {
-  edit_comment,
   update_comment,
-  get_single_comment,
 } from '../actions/comments';
+import {
+  edit_comment,
+  get_single_comment,
+} from '../actions/Api';
 
 const mapStateToPropsComment = (state, ownProps) => ({
   body: state.comments.content.body,

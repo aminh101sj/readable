@@ -13,13 +13,7 @@ class PostForm extends React.Component {
     body: '',
   }
 
-  constructor(props) {
-    super(props);
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -31,8 +25,6 @@ class PostForm extends React.Component {
 
   render() {
     const { handleSubmit, categories } = this.props;
-
-    console.log("the cats: ", categories, handleSubmit);
 
     return (
       <form onSubmit={(event) => { handleSubmit(this.state.title, this.state.author, this.state.category, this.state.body); event.preventDefault();}}>

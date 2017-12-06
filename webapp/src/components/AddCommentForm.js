@@ -9,13 +9,7 @@ class AddCommentForm extends Component {
     body: '',
   }
 
-  constructor(props) {
-    super(props);
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;

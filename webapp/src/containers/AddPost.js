@@ -5,12 +5,9 @@ import {
   withRouter
 } from 'react-router-dom';
 import {
-  create_post,
-} from '../actions/posts';
-
-import {
   get_categories,
-} from '../actions/categories';
+  create_post,
+} from '../actions/Api';
 
 class AddPost extends Component {
 

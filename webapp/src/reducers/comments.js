@@ -1,4 +1,4 @@
-import * as Types from '../actions/comments';
+import * as Types from '../actions/types';
 
 export const comments = (state={list: [], content: {}}, action) => {
   switch(action.type) {

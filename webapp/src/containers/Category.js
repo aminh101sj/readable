@@ -5,7 +5,7 @@ import {
   get_cat_posts,
   delete_post,
   upvote,
-  downvote, } from '../actions/posts';
+  downvote, } from '../actions/Api';
 import { Link } from 'react-router-dom';
 
 import Vote from '../components/Vote';

@@ -9,13 +9,15 @@ import Default from './Default';
 import Category from './Category';
 import { Menu, Row, Col, Dropdown, Icon, Button } from 'antd';
 import {
-  get_categories,
   select_category,
 } from '../actions/categories';
 import {
   change_order,
-  get_cat_posts,
 } from '../actions/posts';
+import {
+  get_categories,
+  get_cat_posts,
+} from '../actions/Api';
 
 const dropdown = {
   'voteScore': 'Vote Scored',

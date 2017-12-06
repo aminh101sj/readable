@@ -6,22 +6,21 @@ import {
 import { Card, Row, Col, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import {
-  get_single_post,
-  delete_post,
-  upvote,
-  downvote,
-} from '../actions/posts';
-import {
   get_comments,
   delete_comment,
   upvote_comment,
   downvote_comment,
-} from '../actions/comments';
+  get_single_post,
+  delete_post,
+  upvote,
+  downvote,
+} from '../actions/Api';
+
 import Vote from '../components/Vote';
 
 class Detail extends Component {
   componentDidMount() {
-    const { get_single_post, get_comments, match, history } = this.props;
+    const { get_single_post, get_comments, match } = this.props;
     get_comments(match.params.id);
     get_single_post(match.params.id);
   }
@@ -80,7 +79,7 @@ class Detail extends Component {
           </Row>
             { comments.map((comment) => {
               return (
-                <Card style={{ width: 600 }}>
+                <Card style={{ width: 600 }} key={comment.id}>
                   <Row>
                     <Col span={4}>
                       <Vote increment={() => { upvote_comment(comment.id).then(() => { get_comments(match.params.id)}); }}
