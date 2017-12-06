@@ -1,7 +1,6 @@
 import * as Types from '../actions/posts';
 
 export const posts = (state={ lists: [], content: {}, order: 'voteScore' }, action) => {
-  console.log("got action: ", action)
   switch(action.type) {
     case Types.RECEIVE_POSTS:
       return { ...state,

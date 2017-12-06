@@ -21,7 +21,7 @@ class EditPost extends Component {
 
     return (
       <div className="padding">
-        <EditPostForm handleSubmit={(title, body) => { handleSubmit(match.params.id, title, body).then(() => { history.push('/' + match.params.category + '/' + match.params.id) }) }} changePost={changePost} post={post}/>
+        <EditPostForm handleSubmit={(title, body) => { handleSubmit(match.params.id, title, body).then(() => { history.goBack() }) }} changePost={changePost} post={post}/>
       </div>      
     )
   }

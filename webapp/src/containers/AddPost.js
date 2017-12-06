@@ -32,7 +32,7 @@ class AddPost extends Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  categories: state.categories
+  categories: state.categories.list
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

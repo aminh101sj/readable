@@ -21,7 +21,7 @@ import Vote from '../components/Vote';
 
 class Detail extends Component {
   componentDidMount() {
-    const { get_single_post, get_comments, match } = this.props;
+    const { get_single_post, get_comments, match, history } = this.props;
     get_comments(match.params.id);
     get_single_post(match.params.id);
   }
@@ -48,56 +48,58 @@ class Detail extends Component {
             <Link to='/'>Home</Link>
           </Col>
         </Row>
-        <Row>
-          <Col span={2}>
-            <Vote increment={() => upvote_post(post.id).then(() => get_single_post(match.params.id))}
-              decrement={() => downvote_post(post.id).then(() => get_single_post(match.params.id))} />
-          </Col>
-          <Col span={22}>
-            <h1> {post.title}
-              <Link style={{ fontSize: '12px' }} to={"/edit_post/" + post.category + '/' + post.id}>Edit</Link>
-              <Button type="danger" onClick={() => { delete_post(post.id).then(() => history.push('/')) }}>Delete</Button>
-            </h1>
-            <span> { Date(post.timestamp) } </span>
-            <span> By: { post.author }</span>
-            <span> Category: { post.category }</span>
-            <span> Vote: {post.voteScore} </span>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={2}>
-          </Col>
-          <Col span={22}>
-            {post.body}
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <h2> Comments ({ post.commentCount })<span> <Link to={"/add_comment/" + match.params.category + '/' + match.params.id}>Add</Link> </span></h2>
-          </Col>
-        </Row>
-          { comments.map((comment) => {
-            return (
-              <Card style={{ width: 600 }}>
-                <Row>
-                  <Col span={4}>
-                    <Vote increment={() => { upvote_comment(comment.id).then(() => { get_comments(match.params.id)}); }}
-                      decrement={() => { downvote_comment(comment.id).then(() => { get_comments(match.params.id)}); }} />
-                  </Col> 
-                  <Col span={16}>
-                    <p>{ comment.body }</p>
-                    <span> { Date(comment.timestamp) } </span>
-                    <span> By: { comment.author }</span>
-                    <span> Votes: { comment.voteScore }</span>
-                  </Col>
-                  <Col span={4}>
-                    <Link to={"/edit_comment/" + post.category + '/' + post.id + "/" + comment.id}>Edit</Link>
-                    <Button type="danger" onClick={() => { delete_comment(comment.id).then((resp) => { get_comments(match.params.id);}) }}>Delete</Button>
-                  </Col>
-                </Row>
-              </Card>
-            );
-          })}
+        { post.title === undefined ? (<div> Post has been deleted </div>) :
+        (<div>
+          <Row>
+            <Col span={2}>
+              <Vote increment={() => upvote_post(post.id).then(() => get_single_post(match.params.id))}
+                decrement={() => downvote_post(post.id).then(() => get_single_post(match.params.id))} />
+            </Col>
+            <Col span={22}>
+              <h1> {post.title}
+                <Link style={{ fontSize: '12px' }} to={"/edit_post/" + post.category + '/' + post.id}>Edit</Link>
+                <Button type="danger" onClick={() => { delete_post(post.id).then(() => history.push('/')) }}>Delete</Button>
+              </h1>
+              <span> { Date(post.timestamp) } </span>
+              <span> By: { post.author }</span>
+              <span> Category: { post.category }</span>
+              <span> Vote: {post.voteScore} </span>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={2}>
+            </Col>
+            <Col span={22}>
+              {post.body}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <h2> Comments ({ post.commentCount })<span> <Link to={"/add_comment/" + match.params.category + '/' + match.params.id}>Add</Link> </span></h2>
+            </Col>
+          </Row>
+            { comments.map((comment) => {
+              return (
+                <Card style={{ width: 600 }}>
+                  <Row>
+                    <Col span={4}>
+                      <Vote increment={() => { upvote_comment(comment.id).then(() => { get_comments(match.params.id)}); }}
+                        decrement={() => { downvote_comment(comment.id).then(() => { get_comments(match.params.id)}); }} />
+                    </Col> 
+                    <Col span={16}>
+                      <p>{ comment.body }</p>
+                      <span> { Date(comment.timestamp) } </span>
+                      <span> By: { comment.author }</span>
+                      <span> Votes: { comment.voteScore }</span>
+                    </Col>
+                    <Col span={4}>
+                      <Link to={"/edit_comment/" + post.category + '/' + post.id + "/" + comment.id}>Edit</Link>
+                      <Button type="danger" onClick={() => { delete_comment(comment.id).then((resp) => { get_comments(match.params.id);}) }}>Delete</Button>
+                    </Col>
+                  </Row>
+                </Card>
+              );
+            })} </div>) }
       </div>      
     )
   }
@@ -110,7 +112,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   get_single_post: (id) => {
-    dispatch(get_single_post(id));
+    return dispatch(get_single_post(id));
   },
   get_comments: (postId) => {
     dispatch(get_comments(postId));

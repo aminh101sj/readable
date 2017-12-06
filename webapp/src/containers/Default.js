@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import {
   get_posts,
+  delete_post,
   upvote,
   downvote,
 } from '../actions/posts';
@@ -16,9 +17,9 @@ class Default extends Component {
   }
 
   render() {
-    const { posts, order, upvote, downvote } = this.props;
-    console.log(posts);
-    const orderedPosts = posts.sort((a,b) => { return ((a[order] > b[order]) ? -1 : 1) }); 
+    const { posts, order, upvote, downvote, get_posts, delete_post } = this.props;
+    const orderedPosts = posts.sort((a,b) => { return ((a[order] > b[order]) ? -1 : 1) });
+
     return (
       <div>
         { orderedPosts.map((post, i) => {
@@ -28,7 +29,7 @@ class Default extends Component {
                   <Vote increment={() => { upvote(post.id) }} decrement={() => { downvote(post.id) }}/>
                   {post.voteScore} 
                 </Col>
-                <Col span={22}>
+                <Col span={20}>
                   <div><Link to={'/' + post.category + '/' + post.id}> {post.title}</Link></div>
                   <div>
                     <span> { Date(post.timestamp) } </span>
@@ -36,6 +37,10 @@ class Default extends Component {
                     <span> Category: { post.category }</span>
                     <span> Comments: { post.commentCount }</span>
                   </div>
+                </Col>
+                <Col span={2}>
+                  <Link style={{ fontSize: '12px' }} to={"/edit_post/" + post.category + '/' + post.id}>Edit</Link>
+                  <Button type="danger" onClick={() => { delete_post(post.id).then(() => get_posts()) }}>Delete</Button>
                 </Col>
               </Row>
             );
@@ -59,7 +64,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   downvote: (id) => {
     dispatch(downvote(id)).then(() => { dispatch(get_posts()); });
-  }
+  },
+  delete_post: (id) => {
+    return dispatch(delete_post(id));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Default);

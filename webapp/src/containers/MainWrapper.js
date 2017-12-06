@@ -10,9 +10,11 @@ import Category from './Category';
 import { Menu, Row, Col, Dropdown, Icon, Button } from 'antd';
 import {
   get_categories,
+  select_category,
 } from '../actions/categories';
 import {
   change_order,
+  get_cat_posts,
 } from '../actions/posts';
 
 const dropdown = {
@@ -21,23 +23,19 @@ const dropdown = {
 };
 
 class MainWrapper extends Component {
-  state = {
-    current: 'home',
-  }
-
-  handleClick = (e) => {
-    this.setState({
-      current: e.key,
-    });
-  }
-
   componentDidMount() {
-    const { get_categories } = this.props;
+    const { get_categories, selected, select_category } = this.props;
     get_categories();
+
+    // Set the correct state in case of reload
+    const loc = this.props.location.pathname.substr(1);
+    if (loc !== "/" && selected !== loc) {
+      select_category(loc);
+    }
   }
 
   render() {
-    const { categories, order, change_order } = this.props;
+    const { selected, categories, order, change_order, select_category } = this.props;
     const menu = (
       <Menu onClick={(e) => { change_order(e.key) }}>
         <Menu.Item key="voteScore">Vote Scored</Menu.Item>
@@ -45,32 +43,21 @@ class MainWrapper extends Component {
       </Menu>
     );
 
-    const loc = this.props.location.pathname;
-    if (loc !== "/" && '/' + this.state.current !== loc) {
-      for (let i = 0; i < categories.length; i++) {
-        if (loc === '/' + categories[i].path) {
-          this.setState({ current: categories[i].path});
-          break;
-        }
-      }
-    }
-
     return (
       <div>
         <Menu
-          onClick={this.handleClick}
-          selectedKeys={[this.state.current]}
+          selectedKeys={[ selected === '' ? 'home' : selected ]}
           mode="horizontal"
         >
           <Menu.Item key="home">
-            <Link to="/">
+            <Link to="/" onClick={() => select_category('')}>
               Home
             </Link>
           </Menu.Item>
           { categories.map((cat) => {
               return (
                 <Menu.Item key={cat.path}>
-                  <Link to={ "/" + cat.path }>
+                  <Link key={cat.path} to={ "/" + cat.path } onClick={() => select_category(cat.path)}>
                     { cat.name }
                   </Link>
                 </Menu.Item>
@@ -104,7 +91,8 @@ class MainWrapper extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  categories: state.categories,
+  selected: state.categories.selected,
+  categories: state.categories.list,
   order: state.posts.order,
 })
 
@@ -114,7 +102,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   change_order: (order) => {
     dispatch(change_order(order));
-  }
+  },
+  select_category: (category) => {
+    dispatch(select_category(category));
+    dispatch(get_cat_posts(category));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainWrapper);
