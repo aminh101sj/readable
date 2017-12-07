@@ -14,6 +14,7 @@ To get started developing right away:
     - `node server`
 * In another terminal window
     - `cd webapp`
+    - `npm install`
     - `npm start`
 
 ## API Server
